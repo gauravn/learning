@@ -15,5 +15,12 @@ public class First {
 		a = Integer.parseInt(rndm); 
 		a=a*Math.random();
 		System.out.println(name+":"+a);
+		 String text = "Rajesh Kumar";
+		 Writer output = null;
+		  File file = new File("write.txt");
+		  output = new BufferedWriter(new FileWriter(file));
+		  output.write(text);
+		  output.close();
+        
 	}
 }
