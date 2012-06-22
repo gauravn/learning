@@ -15,12 +15,11 @@ public class First {
 		a = Integer.parseInt(rndm); 
 		a=a*Math.random();
 		System.out.println(name+":"+a);
-		 String text = "Rajesh Kumar";
-		 Writer output = null;
+		 String text = "Gaurav Nagar";
 		  File file = new File("write.txt");
-		  output = new BufferedWriter(new FileWriter(file));
-		  output.write(text);
-		  output.close();
+		  BufferedWriter writer = new BufferedWriter(new FileWriter(file,true));
+		  writer.write(text);
+		  writer.close();
         
 	}
 }
