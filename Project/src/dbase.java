@@ -11,6 +11,7 @@ Commands to be implemented:
               select * from table_name    ------------------------complete
               select col1 col2...from table_name-------------------complete
               select * from table_name where column_name=col-------complete
+              select col1 col2...from table_name where name=col----complete
 6)exit    ----------------------------------------------------------------------completed
 ********************************************************************************************************/
 import java.io.*;
@@ -232,17 +233,23 @@ public class dbase {
 				}
 				else
 				{
-				temp=data.nextToken();
 				int count1=0;
-				while(data.hasMoreTokens())
+				do
 				{
-					dbcolumn[count1]=temp;
-					System.out.print(temp+" ");
 					temp=data.nextToken();
+					dbcolumn[count1]=temp;
+					//System.out.print(temp+"\t");
+					if (flag)
+					{
+						if(temp.equals(clmn))
+						{
+							colno=count1;
+							System.out.println("column no :"+colno);
+						}
+					}
+					//temp=data.nextToken();
 					count1++;
-				}
-				dbcolumn[count1]=temp;
-				System.out.print(temp+" ");
+				}while(data.hasMoreTokens());
 				System.out.println();
 				System.out.println("Count1:"+count1);
 				for(int j=0;j<count1;j++)
@@ -250,7 +257,7 @@ public class dbase {
 					index[j]=false;
 					//System.out.println(j+":"+index[j]);
 				}
-				for(int i=0;i<=count1;i++)
+				for(int i=0;i<count1;i++)
 				{
 					for(int j=0;j<count;j++)
 					{
@@ -259,17 +266,18 @@ public class dbase {
 						{
 							index[i]=true;
 							//System.out.print(count1+" "+index[count1]);
-							System.out.print(dbcolumn[i]+" ");
+							System.out.print(dbcolumn[i]+"\t");
 						}
-					}
-					for(int j=0;j<=count;j++)
-					{
-						//System.out.println(j+":"+index[j]);
 					}
 				    //count1++;	
 				}
+				///for(int j=0;j<count1;j++)
+				//{
+				//	System.out.println(j+":"+index[j]);
+				//}
 				System.out.println();
 				row=reader.readLine();
+				//System.out.println(row);
 				while(row!=null)
 				{
 					StringTokenizer datarow = new StringTokenizer(row,","); // To read input command word by word
@@ -281,14 +289,40 @@ public class dbase {
 						//System.out.println(index[count1]);
 						//System.out.println(temp);
 						temp=datarow.nextToken();
-						if (index[count2])
-						{
-						System.out.print(temp+"\t");
-						}
+						column[count2]=temp;
+						//System.out.println(count2+":"+column[count2]);
 					    count2++;	
 					}while(datarow.hasMoreTokens());
 					//System.out.println(row);
-					System.out.println();
+					if(flag)
+					{
+						//System.out.println(cmpr);
+						//System.out.println(column[colno]);
+						if(column[colno].equals(cmpr))
+						{
+							for(int i=0;i<count2;i++)
+							{
+								if (index[i])
+								{
+								System.out.print(column[i]+"\t");
+								}
+							}
+							System.out.println();
+						}
+					}
+					else
+					{
+						//System.out.println("ecount2 :"+count2);
+						for(int i=0;i<count2;i++)
+						{
+							if (index[i])
+							{
+							System.out.print(column[i]+"\t");
+							}
+						}
+						System.out.println();
+					}
+					//System.out.println();
 					row=reader.readLine();
 				}
 				reader.close();
@@ -312,6 +346,8 @@ public class dbase {
 		String input; //For storing command string
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		input=in.readLine();
+		try
+		{
 		StringTokenizer command = new StringTokenizer(input," "); // To read input command word by word
 		String title = command.nextToken(); //First word in command string
 		switch(title){
@@ -333,6 +369,9 @@ public class dbase {
 			break;
 		default:
 			System.out.println("Invalid Command");
+		}
+		}catch(Exception e){
+			System.out.println("Invalid command or Unable to retrive");
 		}
 		
 	  }while(inf);
