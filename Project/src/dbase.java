@@ -10,6 +10,7 @@ Commands to be implemented:
 5)select col1 col2...from table_name where col1 value------------------	()
               select * from table_name    ------------------------complete
               select col1 col2...from table_name-------------------complete
+              select * from table_name where column_name=col-------complete
 6)exit    ----------------------------------------------------------------------completed
 ********************************************************************************************************/
 import java.io.*;
@@ -121,8 +122,13 @@ public class dbase {
 	static void select(StringTokenizer command)
 	{
 		String dbcolumn[]=new String[10];
-		String column[]=new String[10];   //storing name of columns
+		String column[]=new String[10];   //storing element of columns
 		boolean index[]=new boolean[10]; //storing index for columns
+		String clmns;     //for storing column number
+		String clmn="";
+		String cmpr=""; //for storing element to be compare
+		boolean flag=false; //to indicate where exists
+		int colno=0;   //for storing which column to compare
 		int count=0;
 		String temp="";
 		temp=command.nextToken();
@@ -137,20 +143,91 @@ public class dbase {
 		path="D:\\dbase/"+currentdb+"/"+command.nextToken()+".csv";
 		System.out.println(path);
 		File selct=new File(path);
+		if(command.hasMoreTokens())
+		{
+		if(command.nextToken().equals("where"))
+		{
+			flag=true;
+			clmns=command.nextToken();
+			StringTokenizer data1 = new StringTokenizer(clmns,"=");
+			clmn=data1.nextToken();
+			System.out.println(clmn);
+			cmpr=data1.nextToken();
+			System.out.println(cmpr);
+		}
+		}
 		if(selct.exists())
 		{
 			try {
-				selct.createNewFile();
+				//selct.createNewFile();
 				BufferedReader reader = new BufferedReader(new FileReader(selct));
 				row=reader.readLine();
 				StringTokenizer data = new StringTokenizer(row,","); // To read input command word by word
 				//System.out.println(column[0]);
 				if(column[0].equals("*"))
 				{
-					while(row!=null)
+					StringTokenizer datarow = new StringTokenizer(row,",");
+					//System.out.println(row);
+					//row=reader.readLine();
+					int count2=0;
+					do
 					{
-						System.out.println(row);
+						//dbcolumn[count]=temp;
+						//System.out.println(index[count1]);
+						//System.out.println(temp);
+						temp=datarow.nextToken();
+						if (flag)
+						{
+							if(temp.equals(clmn))
+							{
+								colno=count2;
+								System.out.println(colno);
+							}
+						}
+						System.out.print(temp+"\t");
+					    count2++;	
+					}while(datarow.hasMoreTokens());
+					System.out.println();
+					row=reader.readLine();
+					//System.out.println(row);
+					//StringTokenizer data2 = new StringTokenizer(row,",");
+					//System.out.println(data.countTokens());
+					while((row!=null))
+					{
+						StringTokenizer data2 = new StringTokenizer(row,",");
+						count2=0;
+						do
+						{
+							temp=data2.nextToken();
+							column[count2]=temp;
+							//System.out.println(count2+":"+column[count2]);
+						    count2++;	
+						}while(data2.hasMoreTokens());
+						//System.out.println(flag);
+						if(flag)
+						{
+							//System.out.println(cmpr);
+							//System.out.println(column[colno]);
+							if(column[colno].equals(cmpr))
+							{
+								for(int i=0;i<count2;i++)
+								{
+									System.out.print(column[i]+"\t");
+								}
+								System.out.println();
+							}
+						}
+						else
+						{
+							for(int i=0;i<count2;i++)
+							{
+								System.out.print(column[i]+"\t");
+							}
+							System.out.println();
+						}
 						row=reader.readLine();
+						//System.out.println(row);
+						
 					}
 				}
 				else
@@ -206,7 +283,7 @@ public class dbase {
 						temp=datarow.nextToken();
 						if (index[count2])
 						{
-						System.out.print(temp+" ");
+						System.out.print(temp+"\t");
 						}
 					    count2++;	
 					}while(datarow.hasMoreTokens());
