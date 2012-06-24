@@ -12,9 +12,12 @@ Commands to be implemented:
               select col1 col2...from table_name-------------------complete
               select * from table_name where column_name=col-------complete
               select col1 col2...from table_name where name=col----complete
-6)exit    ----------------------------------------------------------------------completed
+6)delete db database_name-------------------------------------------------------completed
+  delete table table_name-------------------------------------------------------completed
+7)exit    ----------------------------------------------------------------------completed
 ********************************************************************************************************/
 import java.io.*;
+//import java.nio.file.Files;
 import java.util.StringTokenizer;
 public class dbase {
 	static String currentdb="master";
@@ -35,7 +38,7 @@ public class dbase {
 			{
 				row=row +command.nextToken()+",";
 			}
-			System.out.println(row);
+			//System.out.println(row);
 			createtable(path);
 			row="";
 			break;
@@ -337,6 +340,59 @@ public class dbase {
 			System.out.println("Table Not Found");
 		}	
 	}
+	static void delete(StringTokenizer command)
+	{
+		switch(command.nextToken()){  
+		case "db":                   //create database
+			System.out.println("Delete Database");
+			String dbname=command.nextToken();
+			String path="D:\\dbase/"+dbname;
+			File db = new File(path);
+			System.out.println(path);
+			if(dbname.equals("master"))
+			{
+				System.out.println("Cannot Delete Master");
+			}
+			else if(deletedb(db))
+	        {
+	        System.out.println("Database Deleted :"+dbname);
+	        }
+	        else
+	        {
+	        	System.out.println("Database Delete failed :"+dbname);
+	        }
+			break;
+		case "table":              //create table
+			System.out.println("Delete Table");
+		    path="D:\\dbase/"+currentdb+"/"+command.nextToken()+".csv";
+		    File table = new File(path);
+		    if(table.delete())
+	        {
+	        System.out.print("Table Deleted");
+	        }
+	        else
+	        {
+	        	System.out.print("Table Deletionfailed");
+	        }
+			break;
+		default:
+			System.out.println("Delete : Invalid Command");
+		}
+	}
+ static boolean deletedb(File dir) {
+	    if (dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i=0; i<children.length; i++) {
+	            boolean success = deletedb(new File(dir, children[i]));
+	            if (!success) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    // The directory is now empty so delete it
+	    return dir.delete();
+	}
 	
 	public static void main (String[] argv) throws IOException
 	{
@@ -363,6 +419,9 @@ public class dbase {
 			break;
 		case "select":
 			select(command);
+			break;
+		case "delete":
+			delete(command);
 			break;
 		case "exit":
 			inf=false;
