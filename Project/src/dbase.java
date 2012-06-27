@@ -12,8 +12,8 @@ Commands to be implemented:
               select col1 col2...from table_name-------------------complete
               select * from table_name where column_name=col2-------complete
               select col1 col2...from table_name where name=col2----complete
-6)delete db database_name-------------------------------------------------------completed
-  delete table table_name-------------------------------------------------------completed
+6)drop db database_name-------------------------------------------------------completed
+  drop table table_name-------------------------------------------------------completed
 7)exit    ----------------------------------------------------------------------completed
 
 Added Datatypes:
@@ -308,13 +308,15 @@ public class dbase {
 						System.out.print(temp+"\t");
 					    count2++;	
 					}while(datarow.hasMoreTokens());
-					if(colexist==0)
+					if((colexist==0)&flag)
 					{
 						System.out.println();
 						System.out.println("Invalid Column name :"+clmn);
 						return;
 					}
 					//System.out.println(cmpr);
+					if(flag)
+					{
 					try
 					{
 						//System.out.println(cmpr);
@@ -347,6 +349,7 @@ public class dbase {
 						System.out.println();
 						System.out.println("Invalid datatype");
 						return;
+					}
 					}
 					System.out.println();
 					row=reader.readLine();
@@ -412,13 +415,15 @@ public class dbase {
 					//temp=data.nextToken();
 					count1++;
 				}while(data.hasMoreTokens());
-				if(colexist==0)
+				if((colexist==0)& flag)
 				{
 					System.out.println();
 					System.out.println("Invalid Column name :"+clmn);
 					return;
 				}
 				//System.out.println(cmpr);
+				if(flag)
+				{
 				try
 				{
 					//System.out.println(cmpr);
@@ -451,6 +456,7 @@ public class dbase {
 					//System.out.println();
 					System.out.println("Invalid datatype");
 					return;
+				}
 				}
 				//System.out.println();
 				//System.out.println("Count1:"+count1);
@@ -539,7 +545,7 @@ public class dbase {
 			System.out.println("Table Not Found");
 		}	
 	}
-	static void delete(StringTokenizer command)
+	static void drop(StringTokenizer command)
 	{
 		switch(command.nextToken()){  
 		case "db":                   //create database
@@ -567,7 +573,7 @@ public class dbase {
 		    File table = new File(path);
 		    if(table.delete())
 	        {
-	        System.out.print("Table Deleted");
+	        System.out.println("Table Deleted");
 	        }
 	        else
 	        {
@@ -674,8 +680,8 @@ public class dbase {
 		case "select":
 			select(command);
 			break;
-		case "delete":
-			delete(command);
+		case "drop":
+			drop(command);
 			break;
 		case "describe":
 			describe(command);
