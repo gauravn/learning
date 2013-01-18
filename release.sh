@@ -50,7 +50,7 @@ else
 					echo "new revision release : $release";;
 			   *) echo "$2 : Not a release Type";;
 			esac;;
-	   "goto") 	git checkout $2
+	   "goto") 	git checkout v$2
 			echo "jump to version: $2";;
 	   *) echo "Sorry, $1 Not a valid argument";;
 	esac
