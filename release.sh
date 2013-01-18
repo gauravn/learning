@@ -12,8 +12,9 @@ releaseSource ()
 	echo "Enter Release Message"
 	read tagMessage
 	git commit -m "v$release" -a
-	git push orign master
+	git push origin master
 	git tag -a v$release -m "$tagMessage"
+	git push origin v$release
 	echo "Version Release Finished!!"
 	echo "Now new version of app is :$release"
 	return
