@@ -28,11 +28,11 @@ else
 	oldRelease=$release
 	#release="0.0"
 	majorNo=$(echo $release | cut -d'.' -f1)
-	echo $majorNo
+	echo "major :"$majorNo
 	minorNo=$(echo $release | cut -d'.' -f2)
-	echo $minorNo
+	echo "minor :"$minorNo
 	revisionNo=$(echo $release | cut -d'.' -f3)
-	echo $revisionNo
+	echo "revision :"$revisionNo
 
 	case $1 in
 	   "release") case $2 in
@@ -50,7 +50,8 @@ else
 					echo "new revision release : $release";;
 			   *) echo "$2 : Not a release Type";;
 			esac;;
-	   "goto") echo "jump to version: $2";;
+	   "goto") 	git checkout v$2
+			echo "jump to version: $2";;
 	   *) echo "Sorry, $1 Not a valid argument";;
 	esac
 fi
